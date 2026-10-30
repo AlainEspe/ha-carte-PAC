@@ -6,22 +6,11 @@
  */
 
 // ---------------------------------------------------------------
-// Chemins par défaut des images (HACS / local community)
-// ---------------------------------------------------------------
-const DEFAULT_IMAGES = {
-  image: "/local/community/ha-carte-PAC/images/PAC4.png",
-  image_ecs: "/local/community/ha-carte-PAC/images/synoptique_ecs.gif",
-  image_zone_1: "/local/community/ha-carte-PAC/images/synoptique_zone1.gif",
-  image_zone_2: "/local/community/ha-carte-PAC/images/synoptique_zone2.gif",
-  image_zones_1_2: "/local/community/ha-carte-PAC/images/synoptique_zones1et2.gif",
-};
-
-// ---------------------------------------------------------------
 // 1. Les champs affichables et leur position par défaut
-//    top / left : % de l'image    size : % de la largeur de la carte
+//   top / left : % de l'image    size : % de la largeur de la carte
 // ---------------------------------------------------------------
 const R = { left: 92, size: 1.3, right: true }; // colonne de droite
-const B = { top: 95, size: 1.2 };               // ligne du bas
+const B = { top: 95, size: 1.2 };                // ligne du bas
 
 const FIELDS = {
   outdoor_temp: { top: 16, left: 20, size: 2.2, bold: true },
@@ -53,11 +42,11 @@ const FIELDS = {
 
 // Noms affichés dans l'éditeur visuel
 const LABELS = {
-  image: "Image de fond par défaut (par défaut : /local/community/ha-carte-PAC/images/PAC4.png)",
-  image_ecs: "GIF : ECS seule (par défaut : synoptique_ecs.gif)",
-  image_zone_1: "GIF : Zone 1 seule (par défaut : synoptique_zone1.gif)",
-  image_zone_2: "GIF : Zone 2 seule (par défaut : synoptique_zone2.gif)",
-  image_zones_1_2: "GIF : Zone 1 + Zone 2 (par défaut : synoptique_zones1et2.gif)",
+  image: "Image de fond par défaut",
+  image_ecs: "GIF : ECS seule",
+  image_zone_1: "GIF : Zone 1 seule",
+  image_zone_2: "GIF : Zone 2 seule",
+  image_zones_1_2: "GIF : Zone 1 + Zone 2",
   max_height: "Hauteur maximale (ex. 80vh ; vide = toute la hauteur disponible)",
   
   outdoor_temp: "Température extérieure",
@@ -140,7 +129,7 @@ class EcodanSynopticCard extends HTMLElement {
         const p = { ...defaults, ...(c.positions?.[key] || {}) };
         if (p.icon) {
           return `<div class="f icon" data-key="${key}"
-                     style="top:${p.top}%;left:${p.left}%;--mdc-icon-size:${p.size}cqw">
+                       style="top:${p.top}%;left:${p.left}%;--mdc-icon-size:${p.size}cqw">
                     <ha-state-icon></ha-state-icon>
                   </div>`;
         }
@@ -150,8 +139,7 @@ class EcodanSynopticCard extends HTMLElement {
       })
       .join("");
 
-    const initialImg = c.image || DEFAULT_IMAGES.image;
-    const image = `<img src="${initialImg}" alt="">`;
+    const image = `<img src="${c.image || ''}" alt="">`;
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -217,34 +205,32 @@ class EcodanSynopticCard extends HTMLElement {
     this._hass = hass;
     if (!this._config || !this.shadowRoot) return;
 
-    // --- SÉLECTION DYNAMIQUE DE L'IMAGE / GIF SELON LES BINARY_SENSORS ET ECS ---
+    // --- SÉLECTION DYNAMIQUE DE L'IMAGE / GIF AVEC LIENS GITHUB BRUTS ---
     const imgEl = this.shadowRoot.querySelector("img");
     if (imgEl) {
       const hvacActionState = this._config.entities.hvac_action ? hass.states[this._config.entities.hvac_action]?.attributes?.hvac_action : null;
       const dhwForceState = this._config.entities.dhw_force ? hass.states[this._config.entities.dhw_force]?.state === "on" : false;
       const isDhwActive = dhwForceState || hvacActionState === "heating_water" || hvacActionState === "heat_water";
 
-      // Lecture des binary_sensors pour les circulateurs
       const z1PumpActive = this._config.entities.z1_pump ? hass.states[this._config.entities.z1_pump]?.state === "on" : false;
       const z2PumpActive = this._config.entities.z2_pump ? hass.states[this._config.entities.z2_pump]?.state === "on" : false;
 
-      // Détermination des visuels (soit la config utilisateur, soit l'image par défaut HACS)
-      const baseImage = this._config.image || DEFAULT_IMAGES.image;
-      const ecsImage = this._config.image_ecs || DEFAULT_IMAGES.image_ecs;
-      const z1Image = this._config.image_zone_1 || DEFAULT_IMAGES.image_zone_1;
-      const z2Image = this._config.image_zone_2 || DEFAULT_IMAGES.image_zone_2;
-      const z1z2Image = this._config.image_zones_1_2 || DEFAULT_IMAGES.image_zones_1_2;
+      const defaultImg = this._config.image || "https://raw.githubusercontent.com/AlainEspe/ha-carte-PAC/main/images/PAC4.png";
+      const defaultEcs = this._config.image_ecs || "https://raw.githubusercontent.com/AlainEspe/ha-carte-PAC/main/images/synoptique_ecs.gif";
+      const defaultZ1 = this._config.image_zone_1 || "https://raw.githubusercontent.com/AlainEspe/ha-carte-PAC/main/images/synoptique_zone1.gif";
+      const defaultZ2 = this._config.image_zone_2 || "https://raw.githubusercontent.com/AlainEspe/ha-carte-PAC/main/images/synoptique_zone2.gif";
+      const defaultZ1Z2 = this._config.image_zones_1_2 || "https://raw.githubusercontent.com/AlainEspe/ha-carte-PAC/main/images/synoptique_zones1et2.gif";
 
-      let targetImage = baseImage;
+      let targetImage = defaultImg;
 
       if (isDhwActive) {
-        targetImage = ecsImage;
+        targetImage = defaultEcs;
       } else if (z1PumpActive && z2PumpActive) {
-        targetImage = z1z2Image;
+        targetImage = defaultZ1Z2;
       } else if (z2PumpActive) {
-        targetImage = z2Image;
+        targetImage = defaultZ2;
       } else if (z1PumpActive) {
-        targetImage = z1Image;
+        targetImage = defaultZ1;
       }
 
       if (targetImage && imgEl.getAttribute("src") !== targetImage) {
