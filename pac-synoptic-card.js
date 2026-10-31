@@ -412,12 +412,12 @@ class EcodanSynopticCardEditor extends HTMLElement {
 // ---------------------------------------------------------------
 // 4. Enregistrement auprès de Home Assistant
 // ---------------------------------------------------------------
-customElements.define("ecodan-synoptic-card", EcodanSynopticCard);
-customElements.define("ecodan-synoptic-card-editor", EcodanSynopticCardEditor);
+customElements.define("pac-synoptic-card", EcodanSynopticCard);
+customElements.define("pac-synoptic-card-editor", EcodanSynopticCardEditor);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "ecodan-synoptic-card",
+  type: "pac-synoptic-card",
   name: "Ecodan Synoptic Card",
   description: "Synoptique d'une PAC Mitsubishi Ecodan dynamique avec binary_sensors pour les GIFs",
   preview: false,
