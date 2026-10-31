@@ -1,4 +1,4 @@
-e/**
+/**
  * ecodan-synoptic-card
  * Synoptique d'une PAC Mitsubishi Ecodan : image de fond + valeurs
  * positionnées en pourcentage de la carte. Entités choisies par l'utilisateur
