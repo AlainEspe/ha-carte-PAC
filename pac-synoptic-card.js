@@ -9,6 +9,13 @@
 // 1. Les champs affichables et leur position par défaut
 //   top / left : % de l'image    size : % de la largeur de la carte
 // ---------------------------------------------------------------
+const CARD_VERSION = "0.1.0";
+
+console.info(
+  `%c CARTE-POMPE-A-CHALEUR %c ${CARD_VERSION} `,
+  "background:#ff6a00;color:#fff;font-weight:700",
+  "background:#222;color:#fff"
+);
 const R = { left: 92, size: 1.3, right: true }; // colonne de droite
 const B = { top: 95, size: 1.2 };                // ligne du bas
 
