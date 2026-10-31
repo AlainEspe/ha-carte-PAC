@@ -1,4 +1,4 @@
-/**
+e/**
  * ecodan-synoptic-card
  * Synoptique d'une PAC Mitsubishi Ecodan : image de fond + valeurs
  * positionnées en pourcentage de la carte. Entités choisies par l'utilisateur
@@ -9,7 +9,7 @@
 // 1. Les champs affichables et leur position par défaut
 //   top / left : % de l'image    size : % de la largeur de la carte
 // ---------------------------------------------------------------
-const CARD_VERSION = "0.1.0";
+const CARD_VERSION = "1.0.5";
 
 console.info(
   `%c CARTE-POMPE-A-CHALEUR %c ${CARD_VERSION} `,
