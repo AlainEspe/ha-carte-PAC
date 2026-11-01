@@ -5,11 +5,7 @@
  * (YAML ou éditeur visuel).
  */
 
-// ---------------------------------------------------------------
-// 1. Les champs affichables et leur position par défaut
-//   top / left : % de l'image    size : % de la largeur de la carte
-// ---------------------------------------------------------------
-const CARD_VERSION = "1.0.5";
+const CARD_VERSION = "1.0.6";
 
 console.info(
   `%c CARTE-POMPE-A-CHALEUR %c ${CARD_VERSION} `,
@@ -111,7 +107,7 @@ const WEATHER_ICONS = {
 // ---------------------------------------------------------------
 class EcodanSynopticCard extends HTMLElement {
   static getConfigElement() {
-    return document.createElement("ecodan-synoptic-card-editor");
+    return document.createElement("pac-synoptic-card-editor");
   }
 
   static getStubConfig() {
@@ -129,7 +125,6 @@ class EcodanSynopticCard extends HTMLElement {
     const c = this._config;
     const maxH = c.max_height || "calc(100vh - var(--header-height, 56px) - 8px)";
     
-    // On filtre z1_pump et z2_pump pour qu'aucun élément visuel ne soit généré pour eux sur l'image
     const fields = Object.entries(FIELDS)
       .filter(([key]) => c.entities[key] && key !== "z1_pump" && key !== "z2_pump")
       .map(([key, defaults]) => {
@@ -212,16 +207,12 @@ class EcodanSynopticCard extends HTMLElement {
     this._hass = hass;
     if (!this._config || !this.shadowRoot) return;
 
-    // --- SÉLECTION DYNAMIQUE DE L'IMAGE / GIF AVEC LIENS GITHUB BRUTS ---
     const imgEl = this.shadowRoot.querySelector("img");
     if (imgEl) {
       const hvacActionState = this._config.entities.hvac_action ? hass.states[this._config.entities.hvac_action]?.attributes?.hvac_action : null;
       const dhwForceState = this._config.entities.dhw_force ? hass.states[this._config.entities.dhw_force]?.state === "on" : false;
-      
-      // Récupération de l'état du capteur de mode
       const modeState = this._config.entities.mode ? hass.states[this._config.entities.mode]?.state : null;
 
-      // Activation de l'ECS si le mode est sur "Eau chaude", si le forçage est actif ou si l'action climate correspond
       const isDhwActive = modeState === "Eau chaude" || dhwForceState || hvacActionState === "heating_water" || hvacActionState === "heat_water";
 
       const z1PumpActive = this._config.entities.z1_pump ? hass.states[this._config.entities.z1_pump]?.state === "on" : false;
@@ -250,7 +241,6 @@ class EcodanSynopticCard extends HTMLElement {
       }
     }
 
-    // --- MISE À JOUR DES CHAMPS VISIBLES ---
     this.shadowRoot.querySelectorAll(".f").forEach((el) => {
       const key = el.dataset.key;
       const stateObj = hass.states[this._config.entities[key]];
