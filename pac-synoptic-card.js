@@ -20,14 +20,14 @@ const FIELDS = {
   weather: { top: 18, left: 10, size: 3.5, icon: true },
   
   // RDC (Zone 1) affiché en haut (positions 19, 23, 27)
-  z1_flow: { ...R, top: 19 },
-  z1_target: { ...R, top: 23 },
-  z1_room: { ...R, top: 27 },
+  z1_flow: { ...R, top: 45 },
+  z1_target: { ...R, top: 49 },
+  z1_room: { ...R, top: 53 },
   
   // Étage (Zone 2) affiché en bas (positions 45, 49, 53)
-  z2_flow: { ...R, top: 45 },
-  z2_target: { ...R, top: 49 },
-  z2_room: { ...R, top: 53 },
+  z2_flow: { ...R, top: 19 },
+  z2_target: { ...R, top: 23 },
+  z2_room: { ...R, top: 27 },
 
   dhw_current: { ...R, top: 71 },
   dhw_target: { ...R, top: 76 },
