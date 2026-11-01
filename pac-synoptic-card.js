@@ -5,7 +5,7 @@
  * (YAML ou éditeur visuel).
  */
 
-const CARD_VERSION = "1.0.7";
+const CARD_VERSION = "1.0.8";
 
 console.info(
   `%c CARTE-POMPE-A-CHALEUR %c ${CARD_VERSION} `,
@@ -19,12 +19,12 @@ const FIELDS = {
   outdoor_temp: { top: 16, left: 20, size: 2.2, bold: true },
   weather: { top: 18, left: 10, size: 3.5, icon: true },
   
-  // Zone 1 (RDC) affichée en haut (positions 19, 23, 27)
+  // RDC (Zone 1) affiché en haut (positions 19, 23, 27)
   z1_flow: { ...R, top: 19 },
   z1_target: { ...R, top: 23 },
   z1_room: { ...R, top: 27 },
   
-  // Zone 2 (Étage) affichée en bas (positions 45, 49, 53)
+  // Étage (Zone 2) affiché en bas (positions 45, 49, 53)
   z2_flow: { ...R, top: 45 },
   z2_target: { ...R, top: 49 },
   z2_room: { ...R, top: 53 },
@@ -43,7 +43,7 @@ const FIELDS = {
   z2_pump: {},
 };
 
-// Noms affichés dans l'éditeur visuel (Corrigés : Zone 1 = RDC, Zone 2 = Étage)
+// Noms affichés dans l'éditeur visuel (Zone 1 = RDC, Zone 2 = Étage)
 const LABELS = {
   image: "Image de fond par défaut",
   image_ecs: "GIF : ECS seule",
