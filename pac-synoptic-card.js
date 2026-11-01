@@ -5,7 +5,7 @@
  * (YAML ou éditeur visuel).
  */
 
-const CARD_VERSION = "1.0.6";
+const CARD_VERSION = "1.0.7";
 
 console.info(
   `%c CARTE-POMPE-A-CHALEUR %c ${CARD_VERSION} `,
@@ -19,12 +19,12 @@ const FIELDS = {
   outdoor_temp: { top: 16, left: 20, size: 2.2, bold: true },
   weather: { top: 18, left: 10, size: 3.5, icon: true },
   
-  // Étage (Zone 1) affiché en haut (positions 19, 23, 27)
+  // Zone 1 (RDC) affichée en haut (positions 19, 23, 27)
   z1_flow: { ...R, top: 19 },
   z1_target: { ...R, top: 23 },
   z1_room: { ...R, top: 27 },
   
-  // RDC (Zone 2) affiché en bas (positions 45, 49, 53)
+  // Zone 2 (Étage) affichée en bas (positions 45, 49, 53)
   z2_flow: { ...R, top: 45 },
   z2_target: { ...R, top: 49 },
   z2_room: { ...R, top: 53 },
@@ -43,7 +43,7 @@ const FIELDS = {
   z2_pump: {},
 };
 
-// Noms affichés dans l'éditeur visuel
+// Noms affichés dans l'éditeur visuel (Corrigés : Zone 1 = RDC, Zone 2 = Étage)
 const LABELS = {
   image: "Image de fond par défaut",
   image_ecs: "GIF : ECS seule",
@@ -55,12 +55,12 @@ const LABELS = {
   outdoor_temp: "Température extérieure",
   weather: "Météo actuelle (entité weather)",
   
-  z1_flow: "Zone 1 (Étage) – Départ",
-  z1_target: "Zone 1 (Étage) – Consigne",
-  z1_room: "Zone 1 (Étage) – Température actuelle",
-  z2_flow: "Zone 2 (RDC) – Départ",
-  z2_target: "Zone 2 (RDC) – Consigne",
-  z2_room: "Zone 2 (RDC) – Température actuelle",
+  z1_flow: "Zone 1 (RDC) – Départ",
+  z1_target: "Zone 1 (RDC) – Consigne",
+  z1_room: "Zone 1 (RDC) – Température actuelle",
+  z2_flow: "Zone 2 (Étage) – Départ",
+  z2_target: "Zone 2 (Étage) – Consigne",
+  z2_room: "Zone 2 (Étage) – Température actuelle",
 
   dhw_current: "ECS – Température du ballon",
   dhw_target: "ECS – Consigne",
@@ -71,8 +71,8 @@ const LABELS = {
   hvac_action: "Action en cours (entité climate)",
   firmware: "Mise à jour du firmware (entité update)",
   
-  z1_pump: "Binary Sensor - Circulateur Zone 1 (Étage)",
-  z2_pump: "Binary Sensor - Circulateur Zone 2 (RDC)",
+  z1_pump: "Binary Sensor - Circulateur Zone 1 (RDC)",
+  z2_pump: "Binary Sensor - Circulateur Zone 2 (Étage)",
 };
 
 const HVAC_LABELS = {
